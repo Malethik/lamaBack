@@ -16,7 +16,7 @@ export class ItemService {
   findAll() {
     return this.prismaService.item.findMany({
       include: {
-        Supplier: true, // Include le informazioni del fornitore in findAll
+        supplier: true, // Include le informazioni del fornitore in findAll
       },
     });
   }
@@ -25,7 +25,7 @@ export class ItemService {
     return this.prismaService.item.findUnique({
       where: { id },
       include: {
-        Supplier: true, // Include le informazioni del fornitore in findOne
+        supplier: true, // Include le informazioni del fornitore in findOne
       },
     });
   }
