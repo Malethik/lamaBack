@@ -7,7 +7,7 @@ export class Item {
   description: string;
   price: number;
   quantity: number;
-  Supplier: Supplier;
+  supplier: Supplier;
   supplierId: number;
   createdAt: Date;
   updatedAt: Date;

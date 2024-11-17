@@ -14,12 +14,19 @@ export class ItemService {
   }
 
   findAll() {
-    return this.prismaService.item.findMany();
+    return this.prismaService.item.findMany({
+      include: {
+        Supplier: true, // Include le informazioni del fornitore in findAll
+      },
+    });
   }
 
   findOne(id: number) {
     return this.prismaService.item.findUnique({
       where: { id },
+      include: {
+        Supplier: true, // Include le informazioni del fornitore in findOne
+      },
     });
   }
 

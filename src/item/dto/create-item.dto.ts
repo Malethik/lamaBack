@@ -1,8 +1,8 @@
 export class CreateItemDto {
   name: string;
-  description: string;
   price: number;
+  description: string;
   quantity: number;
-  supplierId: number;
-  orderId: number;
+  orderId?: number; // opzionale poiché l'ordine è opzionale
+  supplierId: number; // deve essere un singolo numero
 }
