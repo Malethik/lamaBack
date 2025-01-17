@@ -25,7 +25,6 @@ model User {
 model Costumers {
   id        Int      @id @default(autoincrement())
   name      String
-  password  String
   email     String   @unique
   phone     String   @unique
   address   String
@@ -39,6 +38,7 @@ model Order {
   total       Float
   items       Item[]
   costumers   Costumers @relation(fields: [costumersId], references: [id])
+  sended      Boolean   @default(false)
   costumersId Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -47,9 +47,14 @@ model Order {
 model Item {
   id          Int      @id @default(autoincrement())
   name        String
-  price       Float
+  price       Float    @default(0.0)
+  cost        Float    @default(0.0)
+  currency    String   @default("€")
+  category    String?  @default("Uncategorized")
+  tags        String?  @default("Uncategorized")
   description String
   quantity    Int
+  lot         String   @default("0")
   order       Order?   @relation(fields: [orderId], references: [id])
   orderId     Int?
   createdAt   DateTime @default(now())

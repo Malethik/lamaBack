@@ -5,12 +5,17 @@ export class Item {
   id: number;
   name: string;
   description: string;
-  price: number;
+  price: number = 0.0;
+  cost: number = 0.0;
+  currency: string = '€';
+  category?: string = 'Uncategorized';
+  tags?: string = 'Uncategorized';
   quantity: number;
-  supplier: Supplier;
-  supplierId: number;
+  lot: string = '0';
   createdAt: Date;
   updatedAt: Date;
-  order: Order;
-  orderId: number;
+  supplier: Supplier;
+  supplierId: number;
+  order?: Order;
+  orderId?: number;
 }

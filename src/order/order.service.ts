@@ -16,6 +16,13 @@ export class OrderService {
   findAll() {
     return this.prismaService.order.findMany();
   }
+  findAllFull() {
+    return this.prismaService.order.findMany({
+      include: {
+        costumers: true,
+      },
+    });
+  }
 
   findOne(id: number) {
     return this.prismaService.order.findUnique({
