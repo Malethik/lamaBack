@@ -8,8 +8,17 @@ export class OrderService {
   constructor(private prismaService: PrismaService) {}
 
   create(createOrderDto: CreateOrderDto) {
+    const { costumersId, item, ...orderData } = createOrderDto;
     return this.prismaService.order.create({
-      data: createOrderDto,
+      data: {
+        ...orderData,
+        costumers: {
+          connect: { id: costumersId }, // Collegamento al cliente
+        },
+        items: {
+          connect: item.map((item) => ({ id: item.id })), // Collegamento agli articoli
+        },
+      },
     });
   }
 
