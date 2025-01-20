@@ -29,7 +29,24 @@ export class OrderService {
   findAllFull() {
     return this.prismaService.order.findMany({
       include: {
-        costumers: true,
+        items: {
+          select: {
+            quantity: true,
+            item: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+              },
+            },
+          },
+        },
+        costumers: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
       },
     });
   }

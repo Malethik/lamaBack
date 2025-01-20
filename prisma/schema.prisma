@@ -34,33 +34,35 @@ model Costumers {
 }
 
 model Order {
-  id          Int       @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   total       Float
-  items       Item[]
-  costumers   Costumers @relation(fields: [costumersId], references: [id])
-  sended      Boolean   @default(false)
+  items       OrderItem[]
+  costumers   Costumers   @relation(fields: [costumersId], references: [id])
+  sended      Boolean     @default(false)
   costumersId Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  Item        Item[]
 }
 
 model Item {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
-  price       Float    @default(0.0)
-  cost        Float    @default(0.0)
-  currency    String   @default("€")
-  category    String?  @default("Uncategorized")
-  tags        String?  @default("Uncategorized")
+  price       Float       @default(0.0)
+  cost        Float       @default(0.0)
+  currency    String      @default("€")
+  category    String?     @default("Uncategorized")
+  tags        String?     @default("Uncategorized")
   description String
   quantity    Int
-  lot         String   @default("0")
-  order       Order?   @relation(fields: [orderId], references: [id])
+  lot         String      @default("0")
+  order       Order?      @relation(fields: [orderId], references: [id])
   orderId     Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  supplier    Supplier @relation(fields: [supplierId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  supplier    Supplier    @relation(fields: [supplierId], references: [id])
   supplierId  Int
+  orderItems  OrderItem[] // Relazione inversa con OrderItem
 }
 
 model Supplier {
@@ -72,4 +74,13 @@ model Supplier {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   item      Item[]
+}
+
+model OrderItem {
+  id       Int   @id @default(autoincrement())
+  orderId  Int
+  itemId   Int
+  quantity Int
+  order    Order @relation(fields: [orderId], references: [id])
+  item     Item  @relation(fields: [itemId], references: [id])
 }
