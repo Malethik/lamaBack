@@ -22,7 +22,7 @@ export class OrderController {
   }
 
   @Get()
-  findAll() {
+  findAllFull() {
     return this.orderService.findAll();
   }
 
