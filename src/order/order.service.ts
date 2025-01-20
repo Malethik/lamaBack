@@ -9,6 +9,7 @@ export class OrderService {
 
   create(createOrderDto: CreateOrderDto) {
     const { costumersId, item, ...orderData } = createOrderDto;
+    console.log('Dati ricevuti dal frontend:', createOrderDto);
     return this.prismaService.order.create({
       data: {
         ...orderData,
