@@ -36,33 +36,31 @@ model Costumers {
 model Order {
   id          Int         @id @default(autoincrement())
   total       Float
-  items       OrderItem[]
-  costumers   Costumers   @relation(fields: [costumersId], references: [id])
-  sended      Boolean     @default(false)
-  costumersId Int
+  sended      Boolean
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  Item        Item[]
+  costumers   Costumers   @relation(fields: [costumersId], references: [id])
+  costumersId Int
+  items       OrderItem[]
 }
 
 model Item {
-  id          Int         @id @default(autoincrement())
-  name        String
-  price       Float       @default(0.0)
-  cost        Float       @default(0.0)
-  currency    String      @default("€")
-  category    String?     @default("Uncategorized")
-  tags        String?     @default("Uncategorized")
-  description String
-  quantity    Int
-  lot         String      @default("0")
-  order       Order?      @relation(fields: [orderId], references: [id])
-  orderId     Int?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  supplier    Supplier    @relation(fields: [supplierId], references: [id])
-  supplierId  Int
-  orderItems  OrderItem[] // Relazione inversa con OrderItem
+  id          Int         @id @default(autoincrement()) // Identificativo univoco dell'articolo
+  name        String // Nome dell'articolo
+  price       Float       @default(0.0) // Prezzo dell'articolo
+  cost        Float       @default(0.0) // Costo dell'articolo
+  currency    String      @default("€") // Valuta (e.g., "€")
+  category    String?     @default("Uncategorized") // Categoria dell'articolo (opzionale)
+  tags        String?     @default("Uncategorized") // Tag associati all'articolo (opzionale)
+  description String // Descrizione dell'articolo
+  quantity    Int // Quantità disponibile dell'articolo
+  lot         String      @default("0") // Lotto di produzione, se necessario
+  createdAt   DateTime    @default(now()) // Data di creazione
+  updatedAt   DateTime    @updatedAt // Data dell'ultimo aggiornamento
+  supplier    Supplier    @relation(fields: [supplierId], references: [id]) // Relazione con il fornitore
+  supplierId  Int // ID del fornitore
+  orderItems  OrderItem[] // Relazione con gli articoli negli ordini (molti-a-molti)
+  orderId     Int? // ID dell'ordine (opzionale)
 }
 
 model Supplier {
@@ -78,9 +76,9 @@ model Supplier {
 
 model OrderItem {
   id       Int   @id @default(autoincrement())
-  orderId  Int
-  itemId   Int
   quantity Int
-  order    Order @relation(fields: [orderId], references: [id])
+  itemId   Int
   item     Item  @relation(fields: [itemId], references: [id])
+  orderId  Int
+  order    Order @relation(fields: [orderId], references: [id])
 }

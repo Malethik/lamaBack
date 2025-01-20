@@ -1,8 +1,12 @@
-import { Item } from '../../item/entities/item.entity';
-
 export class CreateOrderDto {
   total: number;
-  item: Item[];
+  items: CreateOrderItemDto[]; // Lista di articoli con quantità
   sended: boolean;
   costumersId: number;
+}
+
+export class CreateOrderItemDto {
+  id: number;
+  quantity: number; // Quantità dell'articolo
+  itemId: number; // ID dell'articolo
 }

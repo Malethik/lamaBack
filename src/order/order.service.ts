@@ -8,19 +8,31 @@ export class OrderService {
   constructor(private prismaService: PrismaService) {}
 
   create(createOrderDto: CreateOrderDto) {
-    const { costumersId, item, ...orderData } = createOrderDto;
-    console.log('Dati ricevuti dal frontend:', createOrderDto);
-    return this.prismaService.order.create({
+    const { total, items, sended, costumersId } = createOrderDto;
+
+    // Crea l'ordine
+    const order = this.prismaService.order.create({
       data: {
-        ...orderData,
-        costumers: {
-          connect: { id: costumersId }, // Collegamento al cliente
-        },
+        total,
+        sended,
+        costumersId,
         items: {
-          connect: item.map((item) => ({ id: item.id })), // Collegamento agli articoli
+          create: items.map((item) => ({
+            quantity: item.quantity, // Quantità per ciascun articolo
+            itemId: item.itemId, // ID dell'articolo
+          })),
+        },
+      },
+      include: {
+        items: {
+          include: {
+            item: true, // Include i dettagli dell'articolo
+          },
         },
       },
     });
+
+    return order;
   }
 
   findAll() {
@@ -45,7 +57,7 @@ export class OrderService {
         costumers: {
           select: {
             name: true,
-            email: true,
+            id: true,
           },
         },
       },
@@ -61,7 +73,17 @@ export class OrderService {
   update(id: number, updateOrderDto: UpdateOrderDto) {
     return this.prismaService.order.update({
       where: { id },
-      data: updateOrderDto,
+      data: {
+        total: updateOrderDto.total,
+        sended: updateOrderDto.sended,
+        costumersId: updateOrderDto.costumersId,
+        items: {
+          update: updateOrderDto.items?.map((item) => ({
+            where: { id: item.id }, // Assicurati che l'ID dell'articolo sia incluso nel DTO
+            data: { quantity: item.quantity }, // Aggiorna la quantità dell'articolo
+          })),
+        },
+      },
     });
   }
 

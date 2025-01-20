@@ -1,4 +1,5 @@
 export class CreateItemDto {
+  id: number; // Non è necessario, l'ID viene generato automaticamente
   name: string;
   price: number;
   cost?: number = 0.0; // Opzionale, valore predefinito 0.0
