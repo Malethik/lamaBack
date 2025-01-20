@@ -31,12 +31,13 @@ export class OrderService {
       include: {
         items: {
           select: {
-            quantity: true,
+            quantity: true, // Quantità specifica dell'ordine
             item: {
               select: {
                 id: true,
                 name: true,
                 price: true,
+                quantity: true, // Quantità totale in inventario
               },
             },
           },
@@ -44,7 +45,7 @@ export class OrderService {
         costumers: {
           select: {
             name: true,
-            id: true,
+            email: true,
           },
         },
       },
