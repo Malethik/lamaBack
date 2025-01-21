@@ -7,9 +7,9 @@ export class Item {
   description: string;
   price: number;
   cost: number;
-  currency: string = '€';
-  category?: string = 'Uncategorized';
-  tags?: string = 'Uncategorized';
+  currency: string;
+  category?: string;
+  tags?: string;
   quantity: number;
   lot: string;
   createdAt: Date;

@@ -3,9 +3,9 @@ export class CreateItemDto {
   name: string;
   price: number;
   cost?: number; // Opzionale, valore predefinito 0.0
-  currency?: string = 'EURO'; // Opzionale, valore predefinito "EURO"
-  category?: string = 'Uncategorized'; // Opzionale, valore predefinito "Uncategorized"
-  tags?: string = 'Uncategorized'; // Opzionale, valore predefinito "Uncategorized"
+  currency?: string; // Opzionale, valore predefinito "EURO"
+  category?: string; // Opzionale, valore predefinito "Uncategorized"
+  tags?: string; // Opzionale, valore predefinito "Uncategorized"
   description: string;
   quantity: number;
   lot?: string; // Opzionale, valore predefinito "0"
