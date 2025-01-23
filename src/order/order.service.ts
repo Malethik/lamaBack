@@ -50,6 +50,7 @@ export class OrderService {
                 name: true,
                 price: true,
                 quantity: true, // Quantità totale in inventario
+                cost: true,
               },
             },
           },
