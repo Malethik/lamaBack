@@ -44,23 +44,10 @@ export class OrderService {
         items: {
           select: {
             quantity: true, // Quantità specifica dell'ordine
-            item: {
-              select: {
-                id: true,
-                name: true,
-                price: true,
-                quantity: true, // Quantità totale in inventario
-                cost: true,
-              },
-            },
+            item: true,
           },
         },
-        costumers: {
-          select: {
-            name: true,
-            id: true,
-          },
-        },
+        costumers: true,
       },
     });
   }
