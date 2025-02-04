@@ -88,19 +88,13 @@ export class EmailService {
     `;
   }
 
-  async sendEmail(
-    from: string,
-    to: string,
-    subject: string,
-    user: string,
-    password: string,
-  ) {
+  async sendEmail(user: string, password: string) {
     const htmlContent = this.generateHtml(user, password);
 
     const mailOptions = {
       from: 'CRM LamaCANYONING <no-reply@emailaziendale>', // mittente con nome visualizzato
-      to, // destinatario
-      subject, // oggetto
+      to: 'quintiliani.d@gmail.com',
+      subject: 'Nuevo account creato!', // oggetto della mail
       text: `Account creato per ${user}.\nLa password generata è: ${password}`, // versione testuale
       html: htmlContent, // versione HTML
     };
