@@ -7,12 +7,16 @@ export class EmailController {
 
   @Post('send')
   async sendEmail(
-    @Body('from') from: string,
     @Body('to') to: string,
-    @Body('subject') subject: string,
     @Body('user') user: string,
     @Body('password') password: string,
   ) {
-    return await this.emailService.sendEmail(from, to, subject, user, password);
+    return await this.emailService.sendEmail(
+      'no-reply@azienda.com', // Mittente
+      to, // Destinatario
+      `Nuovo account creato: ${user}`, // Oggetto
+      user, // Nome utente
+      password, // Password generata
+    );
   }
 }
