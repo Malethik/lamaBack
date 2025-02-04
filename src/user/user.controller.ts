@@ -11,16 +11,19 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { TokenService } from '../core/token/token.service';
+import { hash } from 'bcrypt';
 import { EmailService } from '../email/email.service';
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly tokenService: TokenService,
     private readonly emailService: EmailService,
   ) {}
+
+  hash(value: string) {
+    return hash(value, 10);
+  }
 
   private generateRandomPassword(length: number): string {
     const chars =
@@ -67,7 +70,7 @@ export class UserController {
   @Post('register')
   async register(@Body() createUser: CreateUserDto) {
     const password = this.generateRandomPassword(12);
-    const hashedPassword = await this.tokenService.hash(password);
+    const hashedPassword = await this.hash(password);
 
     await this.emailService.sendEmail(createUser.email, password);
 
