@@ -6,7 +6,10 @@ export class EmailController {
   constructor(private readonly emailService: EmailService) {}
 
   @Post('send')
-  async sendEmail(@Body('user') user: string, password: string) {
+  async sendEmail(
+    @Body('user') user: string,
+    @Body('password') password: string,
+  ) {
     return await this.emailService.sendEmail(user, password);
   }
 }
