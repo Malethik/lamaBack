@@ -68,13 +68,9 @@ export class UserController {
   async register(@Body() createUser: CreateUserDto) {
     const password = this.generateRandomPassword(12);
     const hashedPassword = await this.tokenService.hash(password);
-    await this.emailService.sendEmail(
-      'CRM lama canyon',
-      'quintiliani.d@gmail.com',
-      'Nuevo account creato!',
-      createUser.email,
-      password,
-    );
+
+    await this.emailService.sendEmail(createUser.email, password);
+
     return await this.userService.create({
       ...createUser,
       password: hashedPassword,
