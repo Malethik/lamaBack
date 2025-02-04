@@ -4,12 +4,12 @@ import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class EmailService {
-  private trasporter;
+  private transporter;
   constructor(private configService: ConfigService) {
-    this.trasporter = nodemailer.createTransport({
+    this.transporter = nodemailer.createTransport({
       host: this.configService.get<string>('SMTP_HOST'),
       port: this.configService.get<number>('SMTP_PORT'),
-      secure: this.configService.get<boolean>('SMTP_SECURE'),
+      secure: this.configService.get<boolean>('SMTP_SECURE') === true,
       auth: {
         user: this.configService.get<string>('SMTP_USER'),
         pass: this.configService.get<string>('SMTP_PASS'),
@@ -98,11 +98,13 @@ export class EmailService {
     const htmlContent = this.generateHtml(user, password);
 
     const mailOptions = {
-      from: 'CRM LamaCANYONING', //mittente
-      to, //destinatario
-      subject, //oggetto
-      password: htmlContent,
+      from: 'CRM LamaCANYONING <no-reply@emailaziendale>', // mittente con nome visualizzato
+      to, // destinatario
+      subject, // oggetto
+      text: `Account creato per ${user}.\nLa password generata è: ${password}`, // versione testuale
+      html: htmlContent, // versione HTML
     };
-    return await this.trasporter.sendMail(mailOptions);
+
+    return await this.transporter.sendMail(mailOptions);
   }
 }
