@@ -27,6 +27,19 @@ export class UserService {
     });
   }
 
+  findForAuth(email: string) {
+    return this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+        email: true,
+        userName: true,
+      },
+    });
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.prismaService.user.update({
       where: {
