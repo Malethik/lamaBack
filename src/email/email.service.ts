@@ -14,9 +14,6 @@ export class EmailService {
         user: this.configService.get<string>('SMTP_USER'),
         pass: this.configService.get<string>('SMTP_PASS'),
       },
-      connectionTimeout: 5000, // Aumenta il timeout della connessione a 5 secondi
-      greetingTimeout: 3000, // Timeout per la risposta del server SMTP
-      socketTimeout: 10000, // Timeout per la connessione socket (10 secondi)
     });
   }
   private generateHtml(user: string, password: string): string {
