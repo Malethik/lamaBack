@@ -20,9 +20,11 @@ export class TokenService {
   async hash(value: string) {
     return hash(value, 10);
   }
+
   async compare(value: string, hash: string) {
     return compare(value, hash);
   }
+
   async createToken({ id, email, userName }: Partial<User>) {
     const payload: Payload = { id, email, userName };
     const token = this.jwtService.signAsync(payload, {
@@ -31,6 +33,7 @@ export class TokenService {
     });
     return token;
   }
+
   async verifyToken(token: string) {
     return this.jwtService.verifyAsync<Payload>(token, {
       secret: this.configService.get('JWT_SECRET'),
