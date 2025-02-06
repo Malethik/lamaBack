@@ -6,3 +6,7 @@ export class User {
   createdAt: Date;
   updatedAt: Date;
 }
+export class loginUser {
+  email: string;
+  password: string;
+}

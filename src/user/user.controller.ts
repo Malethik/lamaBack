@@ -11,31 +11,11 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { hash } from 'bcrypt';
-import { EmailService } from '../email/email.service';
+import { loginUser } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly emailService: EmailService,
-  ) {}
-
-  hash(value: string) {
-    return hash(value, 10);
-  }
-
-  private generateRandomPassword(length: number): string {
-    const chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-    let password = '';
-    for (let i = 0; i < length; i++) {
-      password += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return password;
-  }
-
-  //USER ROUTES
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -69,14 +49,11 @@ export class UserController {
 
   @Post('register')
   async register(@Body() createUser: CreateUserDto) {
-    const password = this.generateRandomPassword(12);
-    const hashedPassword = await this.hash(password);
+    return await this.userService.register(createUser);
+  }
 
-    await this.emailService.sendEmail(createUser.email, password);
-
-    return await this.userService.create({
-      ...createUser,
-      password: hashedPassword,
-    });
+  @Post('login')
+  async login(@Body() loginUser: loginUser) {
+    return await this.userService.login(loginUser);
   }
 }
